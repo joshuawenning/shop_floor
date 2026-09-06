@@ -1,0 +1,40 @@
+<%= form_with model: part do |form| %>
+  <% if part.errors.any? %>
+    <div>
+      <h2>
+        <%= pluralize(part.errors.count, "error") %>
+        prevented this part from being saved:
+      </h2>
+
+      <ul>
+        <% part.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :number %>
+    <%= form.text_field :number %>
+  </div>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :revision %>
+    <%= form.text_field :revision %>
+  </div>
+
+  <div>
+    <%= form.label :inventory_quantity %>
+    <%= form.number_field :inventory_quantity, min: 0 %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
