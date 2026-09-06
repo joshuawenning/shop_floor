@@ -1,0 +1,14 @@
+<h1>Parts</h1>
+
+<% if @parts.any? %>
+  <ul>
+    <% @parts.each do |part| %>
+      <li>
+        <%= link_to part.number, part %>
+        &mdash; <%= part.name %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No parts yet.</p>
+<% end %>
