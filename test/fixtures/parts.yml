@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  number: MyString
-  name: MyString
-  revision: MyString
-  inventory_quantity: 1
+  number: PCB-3492
+  name: Widget
+  revision: A
+  inventory_quantity: 10
 
 two:
-  number: MyString
-  name: MyString
-  revision: MyString
-  inventory_quantity: 1
+  number: PART-1437
+  name: Bracket
+  revision: B
+  inventory_quantity: 5
