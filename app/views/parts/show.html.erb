@@ -12,5 +12,14 @@
 </dl>
 
 <p>
+  <%= link_to "Edit", edit_part_path(@part) %>
+</p>
+
+<p>
   <%= link_to "Back to parts", parts_path %>
 </p>
+
+<%= button_to "Delete",
+  @part,
+  method: :delete,
+  data: { turbo_confirm: "Are you sure?" } %>

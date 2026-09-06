@@ -21,6 +21,27 @@ class PartsController < ApplicationController
     end
   end
 
+  def edit
+    @part = Part.find(params[:id])
+  end
+
+  def update
+    @part = Part.find(params[:id])
+
+    if @part.update(part_params)
+      redirect_to @part
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @part = Part.find(params[:id])
+    @part.destroy
+
+    redirect_to parts_path
+  end
+
   private
 
   def part_params
