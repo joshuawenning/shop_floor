@@ -57,4 +57,72 @@ class PartsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
   end
+
+  test "should get edit" do
+    part = Part.create!(
+      number: "EDIT-001",
+      name: "Editable Part",
+      inventory_quantity: 10
+    )
+
+    get edit_part_url(part)
+
+    assert_response :success
+  end
+
+  test "should update part" do
+    part = Part.create!(
+      number: "UPDATE-001",
+      name: "Original Name",
+      inventory_quantity: 10
+    )
+
+    patch part_url(part), params: {
+      part: {
+        name: "Updated Name"
+      }
+    }
+
+    assert_redirected_to part_url(part)
+
+    # THe Ruby object created before the HTTP request still has its old in-memory attributes.
+    # Ask Active Record to fetch the current record from the database again.
+    part.reload
+
+    assert_equal "Updated Name", part.name
+  end
+
+  test "should not update invalid part" do
+    part = Part.create!(
+      number: "INVALID-001",
+      name: "Valid Name",
+      inventory_quantity: 10
+    )
+
+    patch part_url(part), params: {
+      part: {
+        inventory_quantity: -10
+      }
+    }
+
+    assert_response :unprocessable_entity
+
+    part.reload
+
+    assert_equal 10, part.inventory_quantity
+  end
+
+  test "should destroy part" do
+    part = Part.create!(
+      number: "DELETE-001",
+      name: "Disposable Part",
+      inventory_quantity: 10
+    )
+
+    assert_difference("Part.count", -1) do
+      delete part_url(part)
+    end
+
+    assert_redirected_to parts_url
+  end
 end
