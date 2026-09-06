@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_06_180013) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_06_194656) do
   create_table "parts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "inventory_quantity", default: 0, null: false
@@ -20,4 +20,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_06_180013) do
     t.datetime "updated_at", null: false
     t.index ["number"], name: "index_parts_on_number", unique: true
   end
+
+  create_table "work_orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "due_on", null: false
+    t.text "notes"
+    t.string "number", null: false
+    t.integer "part_id", null: false
+    t.integer "quantity", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["number"], name: "index_work_orders_on_number", unique: true
+    t.index ["part_id"], name: "index_work_orders_on_part_id"
+  end
+
+  add_foreign_key "work_orders", "parts"
 end
