@@ -11,4 +11,8 @@ class WorkOrder < ApplicationRecord
   validates :number, presence: true, uniqueness: true
   validates :quantity, numericality: { greater_than: 0 }
   validates :due_on, presence: true
+
+  def overdue?
+    due_on < Date.current && !completed? && !cancelled?
+  end
 end
