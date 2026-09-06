@@ -41,6 +41,10 @@ class PartsController < ApplicationController
 
   private
 
+  def set_part
+    @part = Part.find(params[:id])
+  end
+
   def part_params
     params.expect(part: [ :number, :name, :revision, :inventory_quantity ])
   end
