@@ -1,10 +1,11 @@
 class PartsController < ApplicationController
+  before_action :set_part, only: %i[show edit update destroy]
+
   def index
     @parts = Part.order(:number)
   end
 
   def show
-    @part = Part.find(params[:id])
   end
 
   def new
@@ -22,12 +23,9 @@ class PartsController < ApplicationController
   end
 
   def edit
-    @part = Part.find(params[:id])
   end
 
   def update
-    @part = Part.find(params[:id])
-
     if @part.update(part_params)
       redirect_to @part
     else
@@ -36,7 +34,6 @@ class PartsController < ApplicationController
   end
 
   def destroy
-    @part = Part.find(params[:id])
     @part.destroy
 
     redirect_to parts_path
