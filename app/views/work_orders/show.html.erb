@@ -35,8 +35,16 @@
   <ol>
     <% @work_order.operations.each do |operation| %>
       <li>
-        <strong><%= operation.name %></strong>
+        <strong>
+          <%= operation.position %>.
+          <%= operation.name %>
+        </strong>
         &mdash; <%= operation.status.humanize %>
+
+        <% if operation.completed_at.present? %>
+          &mdash; completed
+          <%= operation.completed_at.to_fs(:short) %>
+        <% end %>
 
         <%= link_to "Edit",
           edit_work_order_operation_path(@work_order, operation) %>
