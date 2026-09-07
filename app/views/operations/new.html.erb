@@ -1,0 +1,13 @@
+<h1>New Operation</h1>
+
+<p>
+  Work Order: <%= @work_order.number %>
+</p>
+
+<%= render "form",
+  work_order: @work_order,
+  operation: @operation %>
+
+<p>
+  <%= link_to "Back to work order", @work_order %>
+</p>

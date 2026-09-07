@@ -24,6 +24,34 @@
   <p><strong>Overdue</strong></p>
 <% end %>
 
+<h2>Operations</h2>
+
+<p>
+  <%= link_to "Add operation",
+    new_work_order_operation_path(@work_order) %>
+</p>
+
+<% if @work_order.operations.any? %>
+  <ol>
+    <% @work_order.operations.each do |operation| %>
+      <li>
+        <strong><%= operation.name %></strong>
+        &mdash; <%= operation.status.humanize %>
+
+        <%= link_to "Edit",
+          edit_work_order_operation_path(@work_order, operation) %>
+
+        <%= button_to "Delete",
+          work_order_operation_path(@work_order, operation),
+          method: :delete,
+          data: { turbo_confirm: "Are you sure?" } %>
+      </li>
+    <% end %>
+  </ol>
+<% else %>
+  <p>No operations yet.</p>
+<% end %>
+
 <p>
   <%= link_to "Back to work orders", work_orders_path %>
 </p>
