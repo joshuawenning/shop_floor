@@ -106,4 +106,92 @@ class WorkOrderTest < ActiveSupport::TestCase
 
     assert_not work_order.overdue?
   end
+
+  test "cannot be completed with unfinished operations" do
+    part = Part.create!(
+      number: "RULE-PART-001",
+      name: "Test Part",
+      inventory_quantity: 10
+    )
+
+    work_order = WorkOrder.create!(
+      number: "RULE-WO-001",
+      part: part,
+      quantity: 10,
+      due_on: 1.week.from_now
+    )
+
+    work_order.operations.create!(
+      name: "Assembly",
+      position: 1,
+      status: :completed
+    )
+
+    work_order.operations.create!(
+      name: "Inspection",
+      position: 2,
+      status: :pending
+    )
+
+    work_order.status = :completed
+
+    assert_not work_order.valid?
+    assert_includes(
+      work_order.errors[:status],
+      "cannot be completed while operations remain unfinished"
+    )
+  end
+
+  test "can be completed when all operations are completed" do
+    part = Part.create!(
+      number: "DONE-PART-001",
+      name: "Test Part",
+      inventory_quantity: 10
+    )
+
+    work_order = WorkOrder.create!(
+      number: "DONE-WO-001",
+      part: part,
+      quantity: 10,
+      due_on: 1.week.from_now
+    )
+
+    work_order.operations.create!(
+      name: "Assembly",
+      position: 1,
+      status: :completed
+    )
+
+    work_order.operations.create!(
+      name: "Inspection",
+      position: 2,
+      status: :completed
+    )
+
+    work_order.status = :completed
+
+    assert work_order.valid?
+  end
+
+  test "cannot be completed without operations" do
+    part = Part.create!(
+      number: "EMPTY-PART-001",
+      name: "Test Part",
+      inventory_quantity: 10
+    )
+
+    work_order = WorkOrder.new(
+      number: "EMPTY-WO-001",
+      part: part,
+      quantity: 10,
+      due_on: 1.week.from_now,
+      status: :completed
+    )
+
+    assert_not work_order.valid?
+    assert_includes(
+      work_order.errors[:status],
+      "cannot be completed without operations"
+    )
+  end
 end

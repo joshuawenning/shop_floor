@@ -13,7 +13,25 @@ class WorkOrder < ApplicationRecord
   validates :quantity, numericality: { greater_than: 0 }
   validates :due_on, presence: true
 
+  validate :operations_must_be_completed, if: :completed?
+
   def overdue?
     due_on < Date.current && !completed? && !cancelled?
+  end
+
+  private
+
+  def operations_must_be_completed
+    if operations.empty?
+      errors.add(
+        :status,
+        "cannot be completed without operations"
+      )
+    elsif operations.where.not(status: :completed).exists?
+      errors.add(
+        :status,
+        "cannot be completed while operations remain unfinished"
+      )
+    end
   end
 end
