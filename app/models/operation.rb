@@ -9,4 +9,16 @@ class Operation < ApplicationRecord
 
   validates :name, presence: true
   validates :position, numericality: { greater_than: 0 }
+
+  before_save :set_completed_at
+
+  private
+
+  def set_completed_at
+    if completed?
+      self.completed_at ||= Time.current
+    else
+      self.completed_at = nil
+    end
+  end
 end
