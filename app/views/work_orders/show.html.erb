@@ -1,0 +1,38 @@
+<h1><%= @work_order.number %></h1>
+
+<dl>
+  <dt>Part</dt>
+  <dd>
+    <%= link_to @work_order.part.number, @work_order.part %>
+    &mdash; <%= @work_order.part.name %>
+  </dd>
+
+  <dt>Quantity</dt>
+  <dd><%= @work_order.quantity %></dd>
+
+  <dt>Due</dt>
+  <dd><%= @work_order.due_on %></dd>
+
+  <dt>Status</dt>
+  <dd><%= @work_order.status.humanize %></dd>
+
+  <dt>Notes</dt>
+  <dd><%= @work_order.notes.presence || "&mdash;" %></dd>
+</dl>
+
+<% if @work_order.overdue? %>
+  <p><strong>Overdue</strong></p>
+<% end %>
+
+<p>
+  <%= link_to "Back to work orders", work_orders_path %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_work_order_path(@work_order) %>
+</p>
+
+<%= button_to "Delete",
+  @work_order,
+  method: :delete,
+  data: { turbo_confirm: "Are you sure?" } %>

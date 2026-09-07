@@ -1,0 +1,38 @@
+<h1>Work Orders</h1>
+
+<p>
+  <%= link_to "New work order", new_work_order_path %>
+</p>
+
+<% if @work_orders.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Part</th>
+        <th>Quantity</th>
+        <th>Due</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @work_orders.each do |work_order| %>
+        <tr>
+          <td>
+            <%= link_to work_order.number, work_order %>
+          </td>
+          <td>
+            <%= work_order.part.number %>
+            &mdash; <%= work_order.part.name %>
+          </td>
+          <td><%= work_order.quantity %></td>
+          <td><%= work_order.due_on %></td>
+          <td><%= work_order.status.humanize %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No work orders yet.</p>
+<% end %>
