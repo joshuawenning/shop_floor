@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  work_order: one
+  name: MyString
+  position: 1
+  status: 1
+  completed_at: 2026-09-06 21:41:33
+
+two:
+  work_order: two
+  name: MyString
+  position: 1
+  status: 1
+  completed_at: 2026-09-06 21:41:33

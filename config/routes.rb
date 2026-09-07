@@ -7,5 +7,7 @@ Rails.application.routes.draw do
   root "dashboard#show"
 
   resources :parts
-  resources :work_orders
+  resources :work_orders do
+    resources :operations, except: :index
+  end
 end

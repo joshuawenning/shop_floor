@@ -1,5 +1,6 @@
 class WorkOrder < ApplicationRecord
   belongs_to :part
+  has_many :operations, -> { order(:position) }, dependent: :destroy
 
   enum :status, {
     scheduled: 0,
