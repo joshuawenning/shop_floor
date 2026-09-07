@@ -5,3 +5,61 @@
   <%= link_to "Parts", parts_path %>
   <%= link_to "Work Orders", work_orders_path %>
 </nav>
+
+<section>
+  <h2>Production</h2>
+
+  <dl>
+    <div>
+      <dt>Scheduled</dt>
+      <dd><%= @scheduled_count %></dd>
+    </div>
+
+    <div>
+      <dt>Active</dt>
+      <dd><%= @active_count %></dd>
+    </div>
+
+    <div>
+      <dt>Overdue</dt>
+      <dd><%= @overdue_count %></dd>
+    </div>
+  </dl>
+</section>
+
+<section>
+  <h2>Current Work</h2>
+
+  <% if @work_orders.any? %>
+    <% @work_orders.each do |work_order| %>
+      <article>
+        <h3>
+          <%= link_to work_order.number, work_order %>
+        </h3>
+
+        <p>
+          <%= work_order.part.number %>
+          &mdash; <%= work_order.part.name %>
+        </p>
+
+        <p>
+          Quantity: <%= work_order.quantity %>
+        </p>
+
+        <p>
+          Due: <%= work_order.due_on %>
+        </p>
+
+        <p>
+          Status: <%= work_order.status.humanize %>
+        </p>
+
+        <% if work_order.overdue? %>
+          <p><strong>Overdue</strong></p>
+        <% end %>
+      </article>
+    <% end %>
+  <% else %>
+    <p>No current work.</p>
+  <% end %>
+</section>
