@@ -9,6 +9,11 @@ class WorkOrder < ApplicationRecord
     cancelled: 3
   }
 
+  scope :overdue, -> {
+    where("due_on < ?", Date.current)
+      .where.not(status: [ :completed, :cancelled ])
+  }
+
   validates :number, presence: true, uniqueness: true
   validates :quantity, numericality: { greater_than: 0 }
   validates :due_on, presence: true
