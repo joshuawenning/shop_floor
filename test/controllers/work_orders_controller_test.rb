@@ -73,4 +73,38 @@ class WorkOrdersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to work_orders_url
   end
+
+  test "should not complete work order with unfinished operations" do
+    part = Part.create!(
+      number: "CTRL-PART-001",
+      name: "Test Part",
+      inventory_quantity: 10
+    )
+
+    work_order = WorkOrder.create!(
+      number: "CTRL-WO-001",
+      part: part,
+      quantity: 10,
+      due_on: 1.week.from_now,
+      status: :active
+    )
+
+    work_order.operations.create!(
+      name: "Assembly",
+      position: 1,
+      status: :pending
+    )
+
+    patch work_order_url(work_order), params: {
+      work_order: {
+        status: "completed"
+      }
+    }
+
+    assert_response :unprocessable_entity
+
+    work_order.reload
+
+    assert_not work_order.completed?
+  end
 end
