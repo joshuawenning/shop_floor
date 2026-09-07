@@ -194,4 +194,57 @@ class WorkOrderTest < ActiveSupport::TestCase
       "cannot be completed without operations"
     )
   end
+
+  test "overdue scope includes past-due active work orders" do
+    part = Part.create!(
+      number: "OVERDUE-PART-001",
+      name: "Test Part",
+      inventory_quantity: 10
+    )
+
+    overdue = WorkOrder.create!(
+      number: "WO-OVERDUE-001",
+      part: part,
+      quantity: 10,
+      due_on: 1.day.ago.to_date,
+      status: :active
+    )
+
+    future = WorkOrder.create!(
+      number: "WO-FUTURE-001",
+      part: part,
+      quantity: 10,
+      due_on: 1.week.from_now.to_date,
+      status: :active
+    )
+
+    assert_includes WorkOrder.overdue, overdue
+    assert_not_includes WorkOrder.overdue, future
+  end
+
+  test "overdue scope excludes completed work orders" do
+    part = Part.create!(
+      number: "COMPLETE-PART-001",
+      name: "Test Part",
+      inventory_quantity: 10
+    )
+
+    work_order = WorkOrder.create!(
+      number: "WO-COMPLETE-001",
+      part: part,
+      quantity: 10,
+      due_on: 1.day.ago.to_date,
+      status: :active
+    )
+
+    work_order.operations.create!(
+      name: "Assembly",
+      position: 1,
+      status: :completed
+    )
+
+    work_order.completed!
+
+    assert_not_includes WorkOrder.overdue, work_order
+  end
 end
