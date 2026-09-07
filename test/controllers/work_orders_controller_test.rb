@@ -1,7 +1,76 @@
 require "test_helper"
 
 class WorkOrdersControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  test "should create work order" do
+    part = Part.create!(
+      number: "TEST-100",
+      name: "Test Part",
+      inventory_quantity: 10
+    )
+
+    assert_difference("WorkOrder.count", 1) do
+      post work_orders_url, params: {
+        work_order: {
+          number: "WO-TEST-100",
+          part_id: part.id,
+          quantity: 50,
+          due_on: 1.week.from_now.to_date,
+          status: "scheduled"
+        }
+      }
+    end
+
+    work_order = WorkOrder.find_by!(number: "WO-TEST-100")
+
+    assert_equal part, work_order.part
+    assert_redirected_to work_order_url(work_order)
+  end
+
+  test "should update work order" do
+    part = Part.create!(
+      number: "UPDATE-100",
+      name: "Update Test Part",
+      inventory_quantity: 10
+    )
+    work_order = WorkOrder.create!(
+      number: "WO-UPDATE-100",
+      part: part,
+      quantity: 50,
+      due_on: 1.week.from_now.to_date,
+      status: "scheduled"
+    )
+
+    patch work_order_url(work_order), params: {
+      work_order: {
+        status: "active"
+      }
+    }
+
+    assert_redirected_to work_order_url(work_order)
+
+    work_order.reload
+
+    assert_equal "active", work_order.status
+  end
+
+  test "should destroy work order" do
+    part = Part.create!(
+      number: "DELETE-100",
+      name: "Delete Test Part",
+      inventory_quantity: 10
+    )
+    work_order = WorkOrder.create!(
+      number: "WO-DELETE-100",
+      part: part,
+      quantity: 50,
+      due_on: 1.week.from_now.to_date,
+      status: "scheduled"
+    )
+
+    assert_difference("WorkOrder.count", -1) do
+      delete work_order_url(work_order)
+    end
+
+    assert_redirected_to work_orders_url
+  end
 end
