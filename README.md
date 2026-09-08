@@ -1,5 +1,5 @@
 # Shop Floor
-> A small manufacturing work-order management application built with Ruby on Rails
+> Manufacturing work-order management in Rails
 
 Shop Floor is a Ruby on Rails production-control application themed around aerospace manufacturing. It tracks controlled parts, work orders, operation routings, inventory, due dates, and production status through a public operations dashboard. Authenticated operators can create and manage production records.
 
