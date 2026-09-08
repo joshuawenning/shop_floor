@@ -12,14 +12,10 @@ class PartTest < ActiveSupport::TestCase
   end
 
   test "requires a unique number" do
-    Part.create!(
-      number: "PCB-4421",
-      name: "Control Board Assembly",
-      inventory_quantity: 10
-    )
+    existing_part = parts(:control_board)
 
     duplicate = Part.new(
-      number: "PCB-4421",
+      number: existing_part.number,
       name: "Another Part",
       inventory_quantity: 20
     )

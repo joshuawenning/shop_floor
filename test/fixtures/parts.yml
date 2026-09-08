@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  number: PCB-3492
-  name: Widget
-  revision: A
-  inventory_quantity: 10
+control_board:
+  number: PCB-4421
+  name: Control Board Assembly
+  revision: C
+  inventory_quantity: 184
 
-two:
-  number: PART-1437
-  name: Bracket
-  revision: B
-  inventory_quantity: 5
+inverter_housing:
+  number: INV-2200
+  name: Inverter Housing
+  revision: A
+  inventory_quantity: 35

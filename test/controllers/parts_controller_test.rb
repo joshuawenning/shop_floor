@@ -10,12 +10,7 @@ class PartsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show part" do
-    part = Part.create!(
-      number: "PCB-4421",
-      name: "Control Board Assembly",
-      revision: "C",
-      inventory_quantity: 184
-    )
+    part = parts(:control_board)
 
     get part_url(part)
 
@@ -33,15 +28,15 @@ class PartsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Part.count", 1) do
       post parts_url, params: {
         part: {
-          number: "INV-2200",
-          name: "Inverter Housing",
+          number: "BRKT-3300",
+          name: "Mounting Bracket",
           revision: "A",
           inventory_quantity: 35
         }
       }
     end
 
-    part = Part.find_by!(number: "INV-2200")
+    part = Part.find_by!(number: "BRKT-3300")
 
     assert_redirected_to part_url(part)
   end
@@ -61,11 +56,7 @@ class PartsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit" do
-    part = Part.create!(
-      number: "EDIT-001",
-      name: "Editable Part",
-      inventory_quantity: 10
-    )
+    part = parts(:control_board)
 
     get edit_part_url(part)
 
@@ -73,11 +64,7 @@ class PartsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update part" do
-    part = Part.create!(
-      number: "UPDATE-001",
-      name: "Original Name",
-      inventory_quantity: 10
-    )
+    part = parts(:control_board)
 
     patch part_url(part), params: {
       part: {
@@ -87,19 +74,14 @@ class PartsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to part_url(part)
 
-    # THe Ruby object created before the HTTP request still has its old in-memory attributes.
-    # Ask Active Record to fetch the current record from the database again.
     part.reload
 
     assert_equal "Updated Name", part.name
   end
 
   test "should not update invalid part" do
-    part = Part.create!(
-      number: "INVALID-001",
-      name: "Valid Name",
-      inventory_quantity: 10
-    )
+    part = parts(:inverter_housing)
+    original_quantity = part.inventory_quantity
 
     patch part_url(part), params: {
       part: {
@@ -111,7 +93,7 @@ class PartsControllerTest < ActionDispatch::IntegrationTest
 
     part.reload
 
-    assert_equal 10, part.inventory_quantity
+    assert_equal original_quantity, part.inventory_quantity
   end
 
   test "should destroy part" do

@@ -2,24 +2,8 @@ require "test_helper"
 
 class OperationTest < ActiveSupport::TestCase
   test "belongs to a work order" do
-    part = Part.create!(
-      number: "OP-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "OP-WO-001",
-      part: part,
-      quantity: 20,
-      due_on: 1.week.from_now
-    )
-
-    operation = Operation.create!(
-      work_order: work_order,
-      name: "Assembly",
-      position: 1
-    )
+    operation = operations(:assembly)
+    work_order = work_orders(:active)
 
     assert_equal work_order, operation.work_order
     assert_includes work_order.operations, operation
@@ -42,25 +26,7 @@ class OperationTest < ActiveSupport::TestCase
   end
 
   test "records completed at when completed" do
-    part = Part.create!(
-      number: "COMP-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "COMP-WO-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.week.from_now
-    )
-
-    operation = Operation.create!(
-      work_order: work_order,
-      name: "Assembly",
-      position: 1,
-      status: :pending
-    )
+    operation = operations(:inspection)
 
     assert_nil operation.completed_at
 
@@ -70,25 +36,7 @@ class OperationTest < ActiveSupport::TestCase
   end
 
   test "clears completed at when no longer completed" do
-    part = Part.create!(
-      number: "REOPEN-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "REOPEN-WO-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.week.from_now
-    )
-
-    operation = Operation.create!(
-      work_order: work_order,
-      name: "Inspection",
-      position: 1,
-      status: :completed
-    )
+    operation = operations(:cutting)
 
     assert_not_nil operation.completed_at
 

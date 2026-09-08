@@ -1,17 +1,25 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  number: WO-3007
-  part: one
-  quantity: 1
-  due_on: 2026-09-06
-  status: 1
-  notes: MyText
+scheduled:
+  number: WO-1001
+  part: control_board
+  quantity: 100
+  due_on: <%= 1.week.from_now.to_date %>
+  status: 0
+  notes: Scheduled production run
 
-two:
-  number: WO-2012
-  part: two
-  quantity: 1
-  due_on: 2026-09-06
+active:
+  number: WO-1002
+  part: inverter_housing
+  quantity: 50
+  due_on: <%= 3.days.from_now.to_date %>
   status: 1
-  notes: MyText
+  notes: Currently in production
+
+overdue:
+  number: WO-1003
+  part: control_board
+  quantity: 75
+  due_on: <%= 3.days.ago.to_date %>
+  status: 1
+  notes: Past due

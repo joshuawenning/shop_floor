@@ -11,19 +11,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "shows active work orders" do
-    part = Part.create!(
-      number: "DASH-PART-001",
-      name: "Dashboard Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "WO-DASH-001",
-      part: part,
-      quantity: 50,
-      due_on: 1.week.from_now,
-      status: :active
-    )
+    work_order = work_orders(:active)
 
     get root_url
 

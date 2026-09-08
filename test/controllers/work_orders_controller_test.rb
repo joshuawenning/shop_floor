@@ -4,11 +4,7 @@ class WorkOrdersControllerTest < ActionDispatch::IntegrationTest
   setup { sign_in_as(users(:one)) }
 
   test "should create work order" do
-    part = Part.create!(
-      number: "TEST-100",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
+    part = parts(:control_board)
 
     assert_difference("WorkOrder.count", 1) do
       post work_orders_url, params: {
@@ -29,18 +25,7 @@ class WorkOrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update work order" do
-    part = Part.create!(
-      number: "UPDATE-100",
-      name: "Update Test Part",
-      inventory_quantity: 10
-    )
-    work_order = WorkOrder.create!(
-      number: "WO-UPDATE-100",
-      part: part,
-      quantity: 50,
-      due_on: 1.week.from_now.to_date,
-      status: "scheduled"
-    )
+    work_order = work_orders(:scheduled)
 
     patch work_order_url(work_order), params: {
       work_order: {
@@ -56,18 +41,7 @@ class WorkOrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy work order" do
-    part = Part.create!(
-      number: "DELETE-100",
-      name: "Delete Test Part",
-      inventory_quantity: 10
-    )
-    work_order = WorkOrder.create!(
-      number: "WO-DELETE-100",
-      part: part,
-      quantity: 50,
-      due_on: 1.week.from_now.to_date,
-      status: "scheduled"
-    )
+    work_order = work_orders(:scheduled)
 
     assert_difference("WorkOrder.count", -1) do
       delete work_order_url(work_order)
@@ -77,25 +51,7 @@ class WorkOrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not complete work order with unfinished operations" do
-    part = Part.create!(
-      number: "CTRL-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "CTRL-WO-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.week.from_now,
-      status: :active
-    )
-
-    work_order.operations.create!(
-      name: "Assembly",
-      position: 1,
-      status: :pending
-    )
+    work_order = work_orders(:active)
 
     patch work_order_url(work_order), params: {
       work_order: {

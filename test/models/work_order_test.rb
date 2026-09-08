@@ -2,32 +2,16 @@ require "test_helper"
 
 class WorkOrderTest < ActiveSupport::TestCase
   test "belongs to a part" do
-    part = Part.create!(
-      number: "PCB-1000",
-      name: "Control Board",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "WO-1000",
-      part: part,
-      quantity: 50,
-      due_on: 1.week.from_now
-    )
+    work_order = work_orders(:scheduled)
+    part = parts(:control_board)
 
     assert_equal part, work_order.part
     assert_includes part.work_orders, work_order
   end
 
   test "requires a number" do
-    part = Part.create!(
-      number: "PCB-1001",
-      name: "Control Board",
-      inventory_quantity: 10
-    )
-
     work_order = WorkOrder.new(
-      part: part,
+      part: parts(:control_board),
       quantity: 50,
       due_on: 1.week.from_now
     )
@@ -37,15 +21,9 @@ class WorkOrderTest < ActiveSupport::TestCase
   end
 
   test "requires quantity greater than zero" do
-    part = Part.create!(
-      number: "PCB-1002",
-      name: "Control Board",
-      inventory_quantity: 10
-    )
-
     work_order = WorkOrder.new(
       number: "WO-1002",
-      part: part,
+      part: parts(:control_board),
       quantity: 0,
       due_on: 1.week.from_now
     )
@@ -54,84 +32,26 @@ class WorkOrderTest < ActiveSupport::TestCase
   end
 
   test "is overdue when due date has passed" do
-    part = Part.create!(
-      number: "PCB-2000",
-      name: "Control Board",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.new(
-      number: "WO-2000",
-      part: part,
-      quantity: 50,
-      due_on: 1.day.ago.to_date,
-      status: :active
-    )
+    work_order = work_orders(:overdue)
 
     assert work_order.overdue?
   end
 
   test "is not overdue when due date is in the future" do
-    part = Part.create!(
-      number: "PCB-2001",
-      name: "Control Board",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.new(
-      number: "WO-2001",
-      part: part,
-      quantity: 50,
-      due_on: 1.day.from_now.to_date,
-      status: :active
-    )
+    work_order = work_orders(:scheduled)
 
     assert_not work_order.overdue?
   end
 
   test "completed work order is not overdue" do
-    part = Part.create!(
-      number: "PCB-2002",
-      name: "Control Board",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.new(
-      number: "WO-2002",
-      part: part,
-      quantity: 50,
-      due_on: 1.day.ago.to_date,
-      status: :completed
-    )
+    work_order = work_orders(:overdue)
+    work_order.status = :completed
 
     assert_not work_order.overdue?
   end
 
   test "cannot be completed with unfinished operations" do
-    part = Part.create!(
-      number: "RULE-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "RULE-WO-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.week.from_now
-    )
-
-    work_order.operations.create!(
-      name: "Assembly",
-      position: 1,
-      status: :completed
-    )
-
-    work_order.operations.create!(
-      name: "Inspection",
-      position: 2,
-      status: :pending
-    )
+    work_order = work_orders(:active)
 
     work_order.status = :completed
 
@@ -143,30 +63,9 @@ class WorkOrderTest < ActiveSupport::TestCase
   end
 
   test "can be completed when all operations are completed" do
-    part = Part.create!(
-      number: "DONE-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "DONE-WO-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.week.from_now
-    )
-
-    work_order.operations.create!(
-      name: "Assembly",
-      position: 1,
-      status: :completed
-    )
-
-    work_order.operations.create!(
-      name: "Inspection",
-      position: 2,
-      status: :completed
-    )
+    work_order = work_orders(:active)
+    operations(:assembly).completed!
+    operations(:inspection).completed!
 
     work_order.status = :completed
 
@@ -174,19 +73,8 @@ class WorkOrderTest < ActiveSupport::TestCase
   end
 
   test "cannot be completed without operations" do
-    part = Part.create!(
-      number: "EMPTY-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.new(
-      number: "EMPTY-WO-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.week.from_now,
-      status: :completed
-    )
+    work_order = work_orders(:scheduled)
+    work_order.status = :completed
 
     assert_not work_order.valid?
     assert_includes(
@@ -196,53 +84,18 @@ class WorkOrderTest < ActiveSupport::TestCase
   end
 
   test "overdue scope includes past-due active work orders" do
-    part = Part.create!(
-      number: "OVERDUE-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    overdue = WorkOrder.create!(
-      number: "WO-OVERDUE-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.day.ago.to_date,
-      status: :active
-    )
-
-    future = WorkOrder.create!(
-      number: "WO-FUTURE-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.week.from_now.to_date,
-      status: :active
-    )
+    overdue = work_orders(:overdue)
+    future = work_orders(:active)
 
     assert_includes WorkOrder.overdue, overdue
     assert_not_includes WorkOrder.overdue, future
   end
 
   test "overdue scope excludes completed work orders" do
-    part = Part.create!(
-      number: "COMPLETE-PART-001",
-      name: "Test Part",
-      inventory_quantity: 10
-    )
-
-    work_order = WorkOrder.create!(
-      number: "WO-COMPLETE-001",
-      part: part,
-      quantity: 10,
-      due_on: 1.day.ago.to_date,
-      status: :active
-    )
-
-    work_order.operations.create!(
-      name: "Assembly",
-      position: 1,
-      status: :completed
-    )
-
+    work_order = work_orders(:active)
+    work_order.update!(due_on: 1.day.ago.to_date)
+    operations(:assembly).completed!
+    operations(:inspection).completed!
     work_order.completed!
 
     assert_not_includes WorkOrder.overdue, work_order
