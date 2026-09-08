@@ -1,6 +1,8 @@
 require "test_helper"
 
 class WorkOrdersControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "should create work order" do
     part = Part.create!(
       number: "TEST-100",

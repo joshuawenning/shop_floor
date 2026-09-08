@@ -1,6 +1,8 @@
 require "test_helper"
 
 class PartsControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "should get index" do
     get parts_url
 
