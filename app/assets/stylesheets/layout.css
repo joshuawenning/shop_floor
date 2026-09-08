@@ -11,8 +11,10 @@
     border-top: var(--border-subtle);
     color: var(--color-muted);
     display: flex;
+    flex-wrap: wrap;
     font-family: var(--font-mono);
     font-size: 0.67rem;
+    gap: var(--space-3);
     justify-content: space-between;
     letter-spacing: 0.08em;
     margin-inline: clamp(1rem, 4vw, 4rem);
@@ -22,6 +24,10 @@
 
   .site-footer__code {
     color: var(--color-blue);
+  }
+
+  .site-footer__credits a {
+    color: var(--color-ink);
   }
 
   .page-heading {
