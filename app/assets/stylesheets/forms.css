@@ -18,7 +18,11 @@
 
   .form-field {
     display: grid;
-    gap: 0.55rem;
+    gap: 0.5rem;
+  }
+
+  .form-field+.form-field {
+    margin-top: 1rem;
   }
 
   .form-field--wide {
@@ -27,16 +31,16 @@
 
   .form-field label {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     font-weight: 650;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.125em;
     text-transform: uppercase;
   }
 
   .form-field small {
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.75rem;
   }
 
   .form-field input,
@@ -49,8 +53,8 @@
     color: var(--color-ink);
     font-family: var(--font-mono);
     font-size: 1rem;
-    min-height: 3.4rem;
-    padding: 0.8rem 0.9rem;
+    min-height: 3.5rem;
+    padding: 0.75rem 1rem;
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     width: 100%;
   }
@@ -88,11 +92,9 @@
 
   .form-actions {
     align-items: center;
-    border-top: var(--border-subtle);
     display: flex;
     gap: var(--space-4);
     margin-top: var(--space-5);
-    padding-top: var(--space-4);
   }
 
   .form-actions--stacked {
@@ -109,21 +111,21 @@
 
   .form-errors__code {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.125em;
     text-transform: uppercase;
   }
 
   .form-errors h2 {
-    font-size: 1.3rem;
-    letter-spacing: -0.02em;
+    font-size: 1.25rem;
+    letter-spacing: -0.05em;
     margin-top: var(--space-2);
   }
 
   .form-errors ul {
     margin-top: var(--space-3);
-    padding-left: 1.2rem;
+    padding-left: 1.25rem;
   }
 
   @media (max-width: 40rem) {
@@ -139,4 +141,3 @@
       padding: var(--space-4);
     }
   }
-}
