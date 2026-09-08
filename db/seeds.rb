@@ -3,12 +3,6 @@
 # A representative aerospace production program. Records are keyed by their
 # controlled identifiers so this file can be run repeatedly.
 
-seed_password = ENV.fetch("SEED_USER_PASSWORD") do
-  raise "SEED_USER_PASSWORD is required in production" if Rails.env.production?
-
-  "flight-ready"
-end
-
 parts_data = [
   { number: "AVX-FCC-4400", name: "Flight Control Computer", revision: "D", inventory_quantity: 6 },
   { number: "CAB-HAR-0098", name: "Avionics Data Harness", revision: "H", inventory_quantity: 35 },
@@ -176,9 +170,6 @@ work_orders_data = [
 ]
 
 ActiveRecord::Base.transaction do
-  user = User.find_or_initialize_by(email_address: "operator@aerodyne.test")
-  user.update!(password: seed_password, password_confirmation: seed_password)
-
   parts = parts_data.each_with_object({}) do |attributes, seeded_parts|
     part = Part.find_or_initialize_by(number: attributes[:number])
     part.update!(attributes)
@@ -209,5 +200,3 @@ puts "Seeded aerospace production data:"
 puts "  #{Part.count} parts"
 puts "  #{WorkOrder.count} work orders"
 puts "  #{Operation.count} operations"
-puts "  Operator: operator@aerodyne.test"
-puts "  Password: #{Rails.env.production? ? "set by SEED_USER_PASSWORD" : seed_password}"
