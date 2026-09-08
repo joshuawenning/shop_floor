@@ -1,13 +1,19 @@
-<h1>New Operation</h1>
+<% content_for :title, "New Operation | Shop Floor" %>
 
-<p>
-  Work Order: <%= @work_order.number %>
-</p>
+<div class="breadcrumb">
+  <%= link_to "Work Orders", work_orders_path %>
+  <span>/</span>
+  <%= link_to @work_order.number, @work_order %>
+  <span>/</span>
+  <span>New operation</span>
+</div>
 
-<%= render "form",
-  work_order: @work_order,
-  operation: @operation %>
+<header class="page-heading page-heading--form">
+  <div>
+    <p class="eyebrow">Routing sequence / initiate</p>
+    <h1>New Operation</h1>
+    <p class="page-heading__description">Work order <%= @work_order.number %> / append manufacturing step</p>
+  </div>
+</header>
 
-<p>
-  <%= link_to "Back to work order", @work_order %>
-</p>
+<%= render "form", work_order: @work_order, operation: @operation %>

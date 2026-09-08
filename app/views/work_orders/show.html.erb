@@ -1,80 +1,118 @@
-<h1><%= @work_order.number %></h1>
+<% content_for :title, "#{@work_order.number} | Shop Floor" %>
 
-<dl>
-  <dt>Part</dt>
-  <dd>
-    <%= link_to @work_order.part.number, @work_order.part %>
-    &mdash; <%= @work_order.part.name %>
-  </dd>
+<div class="breadcrumb">
+  <%= link_to "Work Orders", work_orders_path %>
+  <span>/</span>
+  <span><%= @work_order.number %></span>
+</div>
 
-  <dt>Quantity</dt>
-  <dd><%= @work_order.quantity %></dd>
+<header class="page-heading page-heading--detail">
+  <div>
+    <p class="eyebrow">Production order</p>
+    <h1><%= @work_order.number %></h1>
+    <div class="heading-status">
+      <span class="status-badge status-badge--<%= @work_order.overdue? ? "overdue" : @work_order.status.dasherize %>">
+        <%= @work_order.overdue? ? "Overdue" : @work_order.status.humanize %>
+      </span>
+      <span>Due <%= @work_order.due_on.to_fs(:long) %></span>
+    </div>
+  </div>
 
-  <dt>Due</dt>
-  <dd><%= @work_order.due_on %></dd>
+  <% if authenticated? %>
+    <div class="action-group">
+      <%= link_to "Edit", edit_work_order_path(@work_order), class: "button button--primary" %>
+      <%= button_to "Delete",
+        @work_order,
+        class: "button button--danger",
+        data: { turbo_confirm: "Are you sure?" },
+        form: { class: "inline-form" },
+        method: :delete %>
+    </div>
+  <% end %>
+</header>
 
-  <dt>Status</dt>
-  <dd><%= @work_order.status.humanize %></dd>
+<section class="order-overview">
+  <dl class="spec-grid spec-grid--order">
+    <div>
+      <dt>Part</dt>
+      <dd>
+        <%= link_to @work_order.part.number, @work_order.part %>
+        <small><%= @work_order.part.name %></small>
+      </dd>
+    </div>
+    <div class="spec-grid__feature">
+      <dt>Quantity</dt>
+      <dd><%= @work_order.quantity %><small> units</small></dd>
+    </div>
+    <div>
+      <dt>Due date</dt>
+      <dd><time datetime="<%= @work_order.due_on.iso8601 %>"><%= @work_order.due_on.to_fs(:long) %></time></dd>
+    </div>
+    <div>
+      <dt>Status</dt>
+      <dd><%= @work_order.status.humanize %></dd>
+    </div>
+  </dl>
 
-  <dt>Notes</dt>
-  <dd><%= @work_order.notes.presence || "&mdash;" %></dd>
-</dl>
+  <div class="order-notes">
+    <span class="order-notes__label">Mission notes</span>
+    <p><%= @work_order.notes.presence || "No production notes recorded." %></p>
+  </div>
+</section>
 
-<% if @work_order.overdue? %>
-  <p><strong>Overdue</strong></p>
-<% end %>
+<section class="section-block operations-block">
+  <header class="section-heading">
+    <div>
+      <p class="eyebrow">Routing sequence / <%= @work_order.operations.size.to_s.rjust(2, "0") %></p>
+      <h2>Operations</h2>
+    </div>
 
-<h2>Operations</h2>
-
-<% if authenticated? %>
-  <p>
-    <%= link_to "Add operation",
-      new_work_order_operation_path(@work_order) %>
-  </p>
-<% end %>
-
-<% if @work_order.operations.any? %>
-  <ol>
-    <% @work_order.operations.each do |operation| %>
-      <li>
-        <strong>
-          <%= operation.position %>.
-          <%= operation.name %>
-        </strong>
-        &mdash; <%= operation.status.humanize %>
-
-        <% if operation.completed_at.present? %>
-          &mdash; completed
-          <%= operation.completed_at.to_fs(:short) %>
-        <% end %>
-
-        <% if authenticated? %>
-          <%= link_to "Edit",
-            edit_work_order_operation_path(@work_order, operation) %>
-
-          <%= button_to "Delete",
-            work_order_operation_path(@work_order, operation),
-            method: :delete,
-            data: { turbo_confirm: "Are you sure?" } %>
-        <% end %>
-      </li>
+    <% if authenticated? %>
+      <%= link_to "Add operation",
+        new_work_order_operation_path(@work_order),
+        class: "button button--secondary" %>
     <% end %>
-  </ol>
-<% else %>
-  <p>No operations yet.</p>
-<% end %>
+  </header>
 
-<p>
-  <%= link_to "Back to work orders", work_orders_path %>
-</p>
+  <% if @work_order.operations.any? %>
+    <ol class="operation-list">
+      <% @work_order.operations.each do |operation| %>
+        <li class="operation-item operation-item--<%= operation.status.dasherize %>">
+          <span class="operation-item__position"><%= operation.position.to_s.rjust(2, "0") %></span>
+          <div class="operation-item__body">
+            <strong><%= operation.name %></strong>
+            <% if operation.completed_at.present? %>
+              <span>Completed <%= operation.completed_at.to_fs(:short) %></span>
+            <% else %>
+              <span>Sequence pending completion</span>
+            <% end %>
+          </div>
+          <span class="status-badge status-badge--<%= operation.status.dasherize %>"><%= operation.status.humanize %></span>
 
-<% if authenticated? %>
-  <p>
-    <%= link_to "Edit", edit_work_order_path(@work_order) %>
-  </p>
+          <% if authenticated? %>
+            <div class="operation-item__actions">
+              <%= link_to "Edit",
+                edit_work_order_operation_path(@work_order, operation),
+                class: "text-link" %>
+              <%= button_to "Delete",
+                work_order_operation_path(@work_order, operation),
+                class: "button-link button-link--danger",
+                data: { turbo_confirm: "Are you sure?" },
+                form: { class: "inline-form" },
+                method: :delete %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  <% else %>
+    <div class="empty-state">
+      <span class="empty-state__code">ROUTING / 000</span>
+      <p>No operations yet.</p>
+    </div>
+  <% end %>
+</section>
 
-  <%= button_to "Delete",
-    @work_order,
-    method: :delete,
-    data: { turbo_confirm: "Are you sure?" } %>
-<% end %>
+<div class="page-footer-actions">
+  <%= link_to "Back to work orders", work_orders_path, class: "text-link text-link--back" %>
+</div>

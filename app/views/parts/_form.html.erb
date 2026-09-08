@@ -1,11 +1,8 @@
-<%= form_with model: part do |form| %>
+<%= form_with model: part, class: "record-form" do |form| %>
   <% if part.errors.any? %>
-    <div>
-      <h2>
-        <%= pluralize(part.errors.count, "error") %>
-        prevented this part from being saved:
-      </h2>
-
+    <div class="form-errors" role="alert">
+      <span class="form-errors__code">Input error</span>
+      <h2><%= pluralize(part.errors.count, "error") %> prevented this part from being saved</h2>
       <ul>
         <% part.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -14,27 +11,34 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :number %>
-    <%= form.text_field :number %>
+  <div class="form-grid">
+    <div class="form-field">
+      <%= form.label :number %>
+      <%= form.text_field :number, required: true %>
+      <small>Unique controlled part identifier</small>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :revision %>
+      <%= form.text_field :revision %>
+      <small>Current engineering revision</small>
+    </div>
+
+    <div class="form-field form-field--wide">
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true %>
+      <small>Approved component description</small>
+    </div>
+
+    <div class="form-field form-field--wide">
+      <%= form.label :inventory_quantity %>
+      <%= form.number_field :inventory_quantity, min: 0, required: true %>
+      <small>Units currently available</small>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :revision %>
-    <%= form.text_field :revision %>
-  </div>
-
-  <div>
-    <%= form.label :inventory_quantity %>
-    <%= form.number_field :inventory_quantity, min: 0 %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit class: "button button--primary" %>
+    <%= link_to "Cancel", part.persisted? ? part : parts_path, class: "text-link" %>
   </div>
 <% end %>

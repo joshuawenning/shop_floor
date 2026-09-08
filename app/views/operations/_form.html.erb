@@ -1,11 +1,8 @@
-<%= form_with model: [work_order, operation] do |form| %>
+<%= form_with model: [work_order, operation], class: "record-form record-form--compact" do |form| %>
   <% if operation.errors.any? %>
-    <div>
-      <h2>
-        <%= pluralize(operation.errors.count, "error") %>
-        prevented this operation from being saved:
-      </h2>
-
+    <div class="form-errors" role="alert">
+      <span class="form-errors__code">Input error</span>
+      <h2><%= pluralize(operation.errors.count, "error") %> prevented this operation from being saved</h2>
       <ul>
         <% operation.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -14,25 +11,31 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="form-grid">
+    <div class="form-field form-field--wide">
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true %>
+      <small>Manufacturing step or inspection gate</small>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :position %>
+      <%= form.number_field :position, min: 1, required: true %>
+      <small>Sequence in routing</small>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :status %>
+      <%= form.select(
+        :status,
+        Operation.statuses.keys.map { |status| [status.humanize, status] }
+      ) %>
+      <small>Current execution state</small>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :position %>
-    <%= form.number_field :position, min: 1 %>
-  </div>
-
-  <div>
-    <%= form.label :status %>
-    <%= form.select(
-      :status,
-      Operation.statuses.keys.map { |status| [status.humanize, status] }
-    ) %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit class: "button button--primary" %>
+    <%= link_to "Cancel", work_order, class: "text-link" %>
   </div>
 <% end %>

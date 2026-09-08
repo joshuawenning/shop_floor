@@ -1,20 +1,42 @@
-<h1>Parts</h1>
+<% content_for :title, "Parts | Shop Floor" %>
+
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Material registry / <%= @parts.size.to_s.rjust(3, "0") %></p>
+    <h1>Parts</h1>
+    <p class="page-heading__description">Controlled components and current inventory positions.</p>
+  </div>
+
+  <% if authenticated? %>
+    <%= link_to "New part", new_part_path, class: "button button--primary" %>
+  <% end %>
+</header>
 
 <% if @parts.any? %>
-  <ul>
-    <% @parts.each do |part| %>
-      <li>
-        <%= link_to part.number, part %>
-        &mdash; <%= part.name %>
-      </li>
+  <div class="part-grid">
+    <% @parts.each_with_index do |part, index| %>
+      <article class="part-card">
+        <span class="part-card__index"><%= (index + 1).to_s.rjust(2, "0") %></span>
+        <div class="part-card__identity">
+          <h2><%= link_to part.number, part %></h2>
+          <p><%= part.name %></p>
+        </div>
+        <dl class="part-card__data">
+          <div>
+            <dt>Revision</dt>
+            <dd><%= part.revision.presence || "-" %></dd>
+          </div>
+          <div>
+            <dt>Inventory</dt>
+            <dd><%= part.inventory_quantity %></dd>
+          </div>
+        </dl>
+      </article>
     <% end %>
-  </ul>
+  </div>
 <% else %>
-  <p>No parts yet.</p>
-<% end %>
-
-<% if authenticated? %>
-  <p>
-    <%= link_to "New part", new_part_path %>
-  </p>
+  <div class="empty-state">
+    <span class="empty-state__code">REGISTRY / 000</span>
+    <p>No parts yet.</p>
+  </div>
 <% end %>

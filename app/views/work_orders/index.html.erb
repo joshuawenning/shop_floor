@@ -1,40 +1,56 @@
-<h1>Work Orders</h1>
+<% content_for :title, "Work Orders | Shop Floor" %>
 
-<% if authenticated? %>
-  <p>
-    <%= link_to "New work order", new_work_order_path %>
-  </p>
-<% end %>
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Production register / <%= @work_orders.size.to_s.rjust(3, "0") %></p>
+    <h1>Work Orders</h1>
+    <p class="page-heading__description">Build schedules, milestones, and operational state.</p>
+  </div>
+
+  <% if authenticated? %>
+    <%= link_to "New work order", new_work_order_path, class: "button button--primary" %>
+  <% end %>
+</header>
 
 <% if @work_orders.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>Number</th>
-        <th>Part</th>
-        <th>Quantity</th>
-        <th>Due</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @work_orders.each do |work_order| %>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
         <tr>
-          <td>
-            <%= link_to work_order.number, work_order %>
-          </td>
-          <td>
-            <%= work_order.part.number %>
-            &mdash; <%= work_order.part.name %>
-          </td>
-          <td><%= work_order.quantity %></td>
-          <td><%= work_order.due_on %></td>
-          <td><%= work_order.status.humanize %></td>
+          <th scope="col">Order</th>
+          <th scope="col">Part</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Due</th>
+          <th scope="col">Status</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @work_orders.each do |work_order| %>
+          <tr class="<%= "is-overdue" if work_order.overdue? %>">
+            <td data-label="Order">
+              <%= link_to work_order.number, work_order, class: "data-table__primary-link" %>
+            </td>
+            <td data-label="Part">
+              <%= link_to work_order.part.number, work_order.part, class: "data-table__part-link" %>
+              <span class="data-table__secondary"><%= work_order.part.name %></span>
+            </td>
+            <td data-label="Quantity" class="numeric"><%= work_order.quantity %></td>
+            <td data-label="Due" class="numeric">
+              <time datetime="<%= work_order.due_on.iso8601 %>"><%= work_order.due_on.to_fs(:medium) %></time>
+            </td>
+            <td data-label="Status">
+              <span class="status-badge status-badge--<%= work_order.overdue? ? "overdue" : work_order.status.dasherize %>">
+                <%= work_order.overdue? ? "Overdue" : work_order.status.humanize %>
+              </span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
-  <p>No work orders yet.</p>
+  <div class="empty-state">
+    <span class="empty-state__code">ORDERS / 000</span>
+    <p>No work orders yet.</p>
+  </div>
 <% end %>

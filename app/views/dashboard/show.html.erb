@@ -1,71 +1,77 @@
-<h1>Shop Floor</h1>
-<h2>Production Work-Order Management</h2>
+<% content_for :title, "Dashboard | Shop Floor" %>
 
-<nav>
-  <%= link_to "Parts", parts_path %>
-  <%= link_to "Work Orders", work_orders_path %>
-
-  <% if authenticated? %>
-    <%= button_to "Sign out", session_path, method: :delete %>
-  <% else %>
-    <%= link_to "Sign in", new_session_path %>
-  <% end %>
-</nav>
-
-<section>
-  <h2>Production</h2>
-
-  <dl>
-    <div>
-      <dt>Scheduled</dt>
-      <dd><%= @scheduled_count %></dd>
-    </div>
-
-    <div>
-      <dt>Active</dt>
-      <dd><%= @active_count %></dd>
-    </div>
-
-    <div>
-      <dt>Overdue</dt>
-      <dd><%= @overdue_count %></dd>
-    </div>
-  </dl>
+<section class="hero hero--dashboard">
+  <div>
+    <p class="eyebrow"><span class="signal-dot"></span>Live production overview</p>
+    <h1>Shop Floor</h1>
+  </div>
+  <p class="hero__brief">Precision work-order control for flight-critical manufacturing.</p>
 </section>
 
-<section>
-  <h2>Current Work</h2>
+<section class="metrics-grid" aria-label="Production summary">
+  <article class="metric-card metric-card--scheduled">
+    <span class="metric-card__index">01 / Queue</span>
+    <strong class="metric-card__value"><%= @scheduled_count.to_s.rjust(2, "0") %></strong>
+    <span class="metric-card__label">Scheduled</span>
+  </article>
+
+  <article class="metric-card metric-card--active">
+    <span class="metric-card__index">02 / Live</span>
+    <strong class="metric-card__value"><%= @active_count.to_s.rjust(2, "0") %></strong>
+    <span class="metric-card__label">Active</span>
+  </article>
+
+  <article class="metric-card metric-card--overdue">
+    <span class="metric-card__index">03 / Alert</span>
+    <strong class="metric-card__value"><%= @overdue_count.to_s.rjust(2, "0") %></strong>
+    <span class="metric-card__label">Overdue</span>
+  </article>
+</section>
+
+<section class="section-block">
+  <header class="section-heading">
+    <div>
+      <p class="eyebrow">Flight line / current work</p>
+      <h2>Production queue</h2>
+    </div>
+    <%= link_to "View all work orders", work_orders_path, class: "text-link" %>
+  </header>
 
   <% if @work_orders.any? %>
-    <% @work_orders.each do |work_order| %>
-      <article>
-        <h3>
-          <%= link_to work_order.number, work_order %>
-        </h3>
+    <div class="work-order-grid">
+      <% @work_orders.each_with_index do |work_order, index| %>
+        <article class="work-card work-card--<%= work_order.status.dasherize %> <%= "is-overdue" if work_order.overdue? %>">
+          <div class="work-card__topline">
+            <span class="work-card__sequence"><%= (index + 1).to_s.rjust(2, "0") %></span>
+            <span class="status-badge status-badge--<%= work_order.overdue? ? "overdue" : work_order.status.dasherize %>">
+              <%= work_order.overdue? ? "Overdue" : work_order.status.humanize %>
+            </span>
+          </div>
 
-        <p>
-          <%= work_order.part.number %>
-          &mdash; <%= work_order.part.name %>
-        </p>
+          <h3><%= link_to work_order.number, work_order %></h3>
 
-        <p>
-          Quantity: <%= work_order.quantity %>
-        </p>
+          <%= link_to work_order.part, class: "work-card__part" do %>
+            <span><%= work_order.part.number %></span>
+            <strong><%= work_order.part.name %></strong>
+          <% end %>
 
-        <p>
-          Due: <%= work_order.due_on %>
-        </p>
-
-        <p>
-          Status: <%= work_order.status.humanize %>
-        </p>
-
-        <% if work_order.overdue? %>
-          <p><strong>Overdue</strong></p>
-        <% end %>
-      </article>
-    <% end %>
+          <dl class="work-card__data">
+            <div>
+              <dt>Quantity</dt>
+              <dd><%= work_order.quantity %></dd>
+            </div>
+            <div>
+              <dt>Due date</dt>
+              <dd><time datetime="<%= work_order.due_on.iso8601 %>"><%= work_order.due_on.to_fs(:long) %></time></dd>
+            </div>
+          </dl>
+        </article>
+      <% end %>
+    </div>
   <% else %>
-    <p>No current work.</p>
+    <div class="empty-state">
+      <span class="empty-state__code">QUEUE / 000</span>
+      <p>No current work.</p>
+    </div>
   <% end %>
 </section>

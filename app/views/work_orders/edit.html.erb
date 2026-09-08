@@ -1,7 +1,19 @@
-<h1>Edit Work Order</h1>
+<% content_for :title, "Edit #{@work_order.number} | Shop Floor" %>
+
+<div class="breadcrumb">
+  <%= link_to "Work Orders", work_orders_path %>
+  <span>/</span>
+  <%= link_to @work_order.number, @work_order %>
+  <span>/</span>
+  <span>Edit</span>
+</div>
+
+<header class="page-heading page-heading--form">
+  <div>
+    <p class="eyebrow">Production control / revise</p>
+    <h1>Edit Work Order</h1>
+    <p class="page-heading__description"><%= @work_order.number %> / controlled record update</p>
+  </div>
+</header>
 
 <%= render "form", work_order: @work_order %>
-
-<p>
-  <%= link_to "Back to work order", @work_order %>
-</p>

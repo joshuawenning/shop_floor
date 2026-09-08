@@ -1,29 +1,49 @@
-<h1><%= @part.number %></h1>
+<% content_for :title, "#{@part.number} | Shop Floor" %>
 
-<dl>
-  <dt>Name</dt>
-  <dd><%= @part.name %></dd>
+<div class="breadcrumb">
+  <%= link_to "Parts", parts_path %>
+  <span>/</span>
+  <span><%= @part.number %></span>
+</div>
 
-  <dt>Revision</dt>
-  <dd><%= @part.revision.presence || "&mdash;" %></dd>
+<header class="page-heading page-heading--detail">
+  <div>
+    <p class="eyebrow">Part specification</p>
+    <h1><%= @part.number %></h1>
+    <p class="page-heading__description"><%= @part.name %></p>
+  </div>
 
-  <dt>Inventory</dt>
-  <dd><%= @part.inventory_quantity %></dd>
-</dl>
+  <% if authenticated? %>
+    <div class="action-group">
+      <%= link_to "Edit", edit_part_path(@part), class: "button button--primary" %>
+      <%= button_to "Delete",
+        @part,
+        class: "button button--danger",
+        data: { turbo_confirm: "Are you sure?" },
+        form: { class: "inline-form" },
+        method: :delete %>
+    </div>
+  <% end %>
+</header>
 
-<% if authenticated? %>
-  <p>
-    <%= link_to "Edit", edit_part_path(@part) %>
-  </p>
-<% end %>
+<section class="detail-panel">
+  <div class="detail-panel__marker">PART</div>
+  <dl class="spec-grid">
+    <div>
+      <dt>Name</dt>
+      <dd><%= @part.name %></dd>
+    </div>
+    <div>
+      <dt>Revision</dt>
+      <dd><%= @part.revision.presence || "-" %></dd>
+    </div>
+    <div class="spec-grid__feature">
+      <dt>Inventory</dt>
+      <dd><%= @part.inventory_quantity %><small> units</small></dd>
+    </div>
+  </dl>
+</section>
 
-<p>
-  <%= link_to "Back to parts", parts_path %>
-</p>
-
-<% if authenticated? %>
-  <%= button_to "Delete",
-    @part,
-    method: :delete,
-    data: { turbo_confirm: "Are you sure?" } %>
-<% end %>
+<div class="page-footer-actions">
+  <%= link_to "Back to parts", parts_path, class: "text-link text-link--back" %>
+</div>

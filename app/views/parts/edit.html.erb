@@ -1,7 +1,19 @@
-<h1>Edit Part</h1>
+<% content_for :title, "Edit #{@part.number} | Shop Floor" %>
+
+<div class="breadcrumb">
+  <%= link_to "Parts", parts_path %>
+  <span>/</span>
+  <%= link_to @part.number, @part %>
+  <span>/</span>
+  <span>Edit</span>
+</div>
+
+<header class="page-heading page-heading--form">
+  <div>
+    <p class="eyebrow">Material registry / revise</p>
+    <h1>Edit Part</h1>
+    <p class="page-heading__description"><%= @part.number %> / controlled record update</p>
+  </div>
+</header>
 
 <%= render "form", part: @part %>
-
-<p>
-  <%= link_to "Back to part", @part %>
-</p>

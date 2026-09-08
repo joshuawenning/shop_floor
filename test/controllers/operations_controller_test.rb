@@ -1,6 +1,25 @@
 require "test_helper"
 
 class OperationsControllerTest < ActionDispatch::IntegrationTest
+  test "should get new" do
+    sign_in_as(users(:one))
+
+    get new_work_order_operation_url(work_orders(:active))
+
+    assert_response :success
+    assert_select "h1", "New Operation"
+  end
+
+  test "should get edit" do
+    sign_in_as(users(:one))
+    operation = operations(:assembly)
+
+    get edit_work_order_operation_url(operation.work_order, operation)
+
+    assert_response :success
+    assert_select "h1", "Edit Operation"
+  end
+
   test "requires authentication for management actions" do
     work_order = work_orders(:active)
     operation = operations(:assembly)

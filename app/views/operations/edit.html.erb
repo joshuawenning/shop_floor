@@ -1,9 +1,19 @@
-<h1>Edit Operation</h1>
+<% content_for :title, "Edit Operation | Shop Floor" %>
 
-<%= render "form",
-  work_order: @work_order,
-  operation: @operation %>
+<div class="breadcrumb">
+  <%= link_to "Work Orders", work_orders_path %>
+  <span>/</span>
+  <%= link_to @work_order.number, @work_order %>
+  <span>/</span>
+  <span>Edit operation</span>
+</div>
 
-<p>
-  <%= link_to "Back to work order", @work_order %>
-</p>
+<header class="page-heading page-heading--form">
+  <div>
+    <p class="eyebrow">Routing sequence / revise</p>
+    <h1>Edit Operation</h1>
+    <p class="page-heading__description"><%= @operation.name %> / sequence <%= @operation.position.to_s.rjust(2, "0") %></p>
+  </div>
+</header>
+
+<%= render "form", work_order: @work_order, operation: @operation %>

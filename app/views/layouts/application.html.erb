@@ -2,28 +2,40 @@
 <html>
   <head>
     <title><%= content_for(:title) || "Shop Floor" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Shop Floor">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#050505">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="<%= authenticated? ? "is-authenticated" : "is-public" %>">
+    <%= render "shared/navigation" %>
+    <%= render "shared/flash" %>
+
+    <main class="site-main" id="main-content">
+      <%= yield %>
+    </main>
+
+    <footer class="site-footer">
+      <span>Shop Floor / Production Control</span>
+      <span class="site-footer__code">SYS-OPS 01</span>
+    </footer>
   </body>
 </html>

@@ -1,11 +1,42 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<% content_for :title, "Operator Sign In | Shop Floor" %>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
-<% end %>
-<br>
+<section class="auth-shell">
+  <div class="auth-shell__signal" aria-hidden="true">
+    <span>AUTH</span>
+    <strong>01</strong>
+  </div>
 
-<%= link_to "Forgot password?", new_password_path %>
+  <div class="auth-panel">
+    <header class="auth-panel__heading">
+      <p class="eyebrow">Restricted controls</p>
+      <h1>Operator sign in</h1>
+      <p>Authenticate to create, modify, or release production records.</p>
+    </header>
+
+    <%= form_with url: session_path, class: "record-form record-form--auth" do |form| %>
+      <div class="form-field form-field--wide">
+        <%= form.label :email_address, "Email address" %>
+        <%= form.email_field :email_address,
+          autocomplete: "username",
+          autofocus: true,
+          placeholder: "operator@facility.com",
+          required: true,
+          value: params[:email_address] %>
+      </div>
+
+      <div class="form-field form-field--wide">
+        <%= form.label :password %>
+        <%= form.password_field :password,
+          autocomplete: "current-password",
+          maxlength: 72,
+          placeholder: "Enter password",
+          required: true %>
+      </div>
+
+      <div class="form-actions form-actions--stacked">
+        <%= form.submit "Sign in", class: "button button--primary button--full" %>
+        <%= link_to "Forgot password?", new_password_path, class: "text-link" %>
+      </div>
+    <% end %>
+  </div>
+</section>

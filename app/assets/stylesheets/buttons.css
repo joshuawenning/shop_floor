@@ -1,0 +1,119 @@
+@layer components {
+  .button,
+  input[type="submit"] {
+    align-items: center;
+    background: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    border-radius: 0;
+    color: var(--color-black);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+    justify-content: center;
+    letter-spacing: 0.04em;
+    min-height: 3rem;
+    padding: 0.8rem 1.15rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .button:hover,
+  input[type="submit"]:hover {
+    background: var(--color-acid);
+    border-color: var(--color-acid);
+    color: var(--color-black);
+    transform: translateY(-2px);
+  }
+
+  .button--compact {
+    font-size: 0.62rem;
+    min-height: 2.35rem;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .button--danger {
+    background: transparent;
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+  }
+
+  .button--danger:hover {
+    background: var(--color-danger);
+    border-color: var(--color-danger);
+    color: var(--color-black);
+  }
+
+  .button--full {
+    width: 100%;
+  }
+
+  .button--ghost {
+    background: transparent;
+    border-color: var(--color-line);
+    color: var(--color-ink);
+  }
+
+  .button--primary {
+    background: var(--color-acid);
+    border-color: var(--color-acid);
+  }
+
+  .button--primary:hover {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  .button--secondary {
+    background: var(--color-blue);
+    border-color: var(--color-blue);
+  }
+
+  .button--signal {
+    background: var(--color-orange);
+    border-color: var(--color-orange);
+  }
+
+  .button-link {
+    background: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    padding: 0;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-underline-offset: 0.2em;
+  }
+
+  .button-link--danger {
+    color: var(--color-danger);
+  }
+
+  .text-link {
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .text-link--back::before {
+    content: "← ";
+  }
+
+  .action-group {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .inline-form {
+    display: inline;
+    margin: 0;
+  }
+}

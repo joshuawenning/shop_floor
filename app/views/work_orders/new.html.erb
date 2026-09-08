@@ -1,7 +1,17 @@
-<h1>New Work Order</h1>
+<% content_for :title, "New Work Order | Shop Floor" %>
+
+<div class="breadcrumb">
+  <%= link_to "Work Orders", work_orders_path %>
+  <span>/</span>
+  <span>New</span>
+</div>
+
+<header class="page-heading page-heading--form">
+  <div>
+    <p class="eyebrow">Production control / initiate</p>
+    <h1>New Work Order</h1>
+    <p class="page-heading__description">Define the component, quantity, and delivery target.</p>
+  </div>
+</header>
 
 <%= render "form", work_order: @work_order %>
-
-<p>
-  <%= link_to "Back to work orders", work_orders_path %>
-</p>

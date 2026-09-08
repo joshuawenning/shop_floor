@@ -1,7 +1,17 @@
-<h1>New Part</h1>
+<% content_for :title, "New Part | Shop Floor" %>
+
+<div class="breadcrumb">
+  <%= link_to "Parts", parts_path %>
+  <span>/</span>
+  <span>New</span>
+</div>
+
+<header class="page-heading page-heading--form">
+  <div>
+    <p class="eyebrow">Material registry / initiate</p>
+    <h1>New Part</h1>
+    <p class="page-heading__description">Register a controlled component in the production system.</p>
+  </div>
+</header>
 
 <%= render "form", part: @part %>
-
-<p>
-  <%= link_to "Back to parts", parts_path %>
-</p>

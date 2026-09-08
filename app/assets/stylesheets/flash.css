@@ -1,0 +1,28 @@
+@layer components {
+  .flash {
+    align-items: center;
+    background: var(--color-blue);
+    color: var(--color-black);
+    display: flex;
+    font-weight: 600;
+    gap: var(--space-3);
+    margin: var(--space-3) clamp(1rem, 4vw, 4rem) 0;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .flash--alert {
+    background: var(--color-danger);
+  }
+
+  .flash--notice {
+    background: var(--color-green);
+  }
+
+  .flash__label {
+    border-right: 1px solid rgb(5 5 5 / 40%);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    padding-right: var(--space-3);
+  }
+}

@@ -1,0 +1,70 @@
+@layer base {
+  body {
+    background-color: var(--color-black);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.45;
+    min-height: 100vh;
+  }
+
+  body::before {
+    background-image: linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    content: "";
+    inset: 0;
+    mask-image: linear-gradient(to bottom, rgb(0 0 0 / 18%), transparent 48rem);
+    opacity: 0.16;
+    pointer-events: none;
+    position: fixed;
+    z-index: -1;
+  }
+
+  ::selection {
+    background: var(--color-acid);
+    color: var(--color-black);
+  }
+
+  a {
+    color: inherit;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+  }
+
+  a:hover {
+    color: var(--color-acid);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    color: inherit;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  h1 {
+    font-size: clamp(3.25rem, 9vw, 8.75rem);
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 4.25rem);
+  }
+
+  h3 {
+    font-size: clamp(1.4rem, 2.5vw, 2.25rem);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 4px;
+  }
+}
