@@ -1,4 +1,6 @@
 class PartsController < ApplicationController
+  allow_unauthenticated_access only: %i[index show]
+
   before_action :set_part, only: %i[show edit update destroy]
 
   def index

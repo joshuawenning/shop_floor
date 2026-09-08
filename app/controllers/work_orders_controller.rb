@@ -1,4 +1,6 @@
 class WorkOrdersController < ApplicationController
+  allow_unauthenticated_access only: %i[index show]
+
   before_action :set_work_order, only: %i[show edit update destroy]
 
   def index

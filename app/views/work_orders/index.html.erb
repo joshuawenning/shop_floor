@@ -1,8 +1,10 @@
 <h1>Work Orders</h1>
 
-<p>
-  <%= link_to "New work order", new_work_order_path %>
-</p>
+<% if authenticated? %>
+  <p>
+    <%= link_to "New work order", new_work_order_path %>
+  </p>
+<% end %>
 
 <% if @work_orders.any? %>
   <table>

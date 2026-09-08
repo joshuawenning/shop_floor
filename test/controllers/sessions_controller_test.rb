@@ -23,12 +23,12 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create redirects to the originally requested page" do
-    get parts_path
+    get new_part_path
     assert_redirected_to new_session_path
 
     post session_path, params: { email_address: @user.email_address, password: "password" }
 
-    assert_redirected_to parts_url
+    assert_redirected_to new_part_url
   end
 
   test "destroy" do

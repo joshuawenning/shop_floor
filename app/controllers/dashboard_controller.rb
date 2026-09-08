@@ -1,4 +1,6 @@
 class DashboardController < ApplicationController
+  allow_unauthenticated_access
+
   def show
     @scheduled_count = WorkOrder.scheduled.count
     @active_count = WorkOrder.active.count

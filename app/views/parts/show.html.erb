@@ -11,15 +11,19 @@
   <dd><%= @part.inventory_quantity %></dd>
 </dl>
 
-<p>
-  <%= link_to "Edit", edit_part_path(@part) %>
-</p>
+<% if authenticated? %>
+  <p>
+    <%= link_to "Edit", edit_part_path(@part) %>
+  </p>
+<% end %>
 
 <p>
   <%= link_to "Back to parts", parts_path %>
 </p>
 
-<%= button_to "Delete",
-  @part,
-  method: :delete,
-  data: { turbo_confirm: "Are you sure?" } %>
+<% if authenticated? %>
+  <%= button_to "Delete",
+    @part,
+    method: :delete,
+    data: { turbo_confirm: "Are you sure?" } %>
+<% end %>

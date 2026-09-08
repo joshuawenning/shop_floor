@@ -26,10 +26,12 @@
 
 <h2>Operations</h2>
 
-<p>
-  <%= link_to "Add operation",
-    new_work_order_operation_path(@work_order) %>
-</p>
+<% if authenticated? %>
+  <p>
+    <%= link_to "Add operation",
+      new_work_order_operation_path(@work_order) %>
+  </p>
+<% end %>
 
 <% if @work_order.operations.any? %>
   <ol>
@@ -46,13 +48,15 @@
           <%= operation.completed_at.to_fs(:short) %>
         <% end %>
 
-        <%= link_to "Edit",
-          edit_work_order_operation_path(@work_order, operation) %>
+        <% if authenticated? %>
+          <%= link_to "Edit",
+            edit_work_order_operation_path(@work_order, operation) %>
 
-        <%= button_to "Delete",
-          work_order_operation_path(@work_order, operation),
-          method: :delete,
-          data: { turbo_confirm: "Are you sure?" } %>
+          <%= button_to "Delete",
+            work_order_operation_path(@work_order, operation),
+            method: :delete,
+            data: { turbo_confirm: "Are you sure?" } %>
+        <% end %>
       </li>
     <% end %>
   </ol>
@@ -64,11 +68,13 @@
   <%= link_to "Back to work orders", work_orders_path %>
 </p>
 
-<p>
-  <%= link_to "Edit", edit_work_order_path(@work_order) %>
-</p>
+<% if authenticated? %>
+  <p>
+    <%= link_to "Edit", edit_work_order_path(@work_order) %>
+  </p>
 
-<%= button_to "Delete",
-  @work_order,
-  method: :delete,
-  data: { turbo_confirm: "Are you sure?" } %>
+  <%= button_to "Delete",
+    @work_order,
+    method: :delete,
+    data: { turbo_confirm: "Are you sure?" } %>
+<% end %>
