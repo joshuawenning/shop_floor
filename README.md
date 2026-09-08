@@ -44,7 +44,7 @@ Open [http://localhost:3000](http://localhost:3000).
 Load a representative aerospace program with flight-control, propulsion, structures, avionics, and inspection routings:
 
 ```sh
-bin/rails db:seed:replant
+bin/rails db:seed
 ```
 
 ## Tests
