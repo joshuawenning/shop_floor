@@ -6,7 +6,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "Shop Floor"
-    assert_select "a[href=?]", new_session_path, text: "Sign in"
+    assert_select "a[href=?]", new_session_path, text: "Sign In"
     assert_select "button", text: "Sign out", count: 0
   end
 
@@ -26,6 +26,6 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "button", "Sign out"
-    assert_select "a", text: "Sign in", count: 0
+    assert_select "a", text: "Sign In", count: 0
   end
 end

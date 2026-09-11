@@ -3,38 +3,45 @@
     align-items: end;
     border-bottom: var(--border-heavy);
     display: grid;
-    gap: var(--space-5);
+    background-color: #b9b9b5;
+    gap: var(--space-4);
     grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
-    min-height: 25rem;
-    padding-bottom: var(--space-5);
+    min-height: 12rem;
+    padding: var(--space-4);
   }
 
   .hero h1 {
     margin-left: -0.065em;
-    margin-top: var(--space-3);
+    margin-top: var(--space-2);
   }
 
   .hero__brief {
-    border-left: 0.5rem solid var(--color-blue);
-    font-size: clamp(1.1rem, 2vw, 1.6rem);
-    font-weight: 550;
+    background: var(--color-panel-raised);
+    border: var(--border-heavy);
+    border-left: 0.25rem solid var(--color-orange);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
     max-width: 32rem;
-    padding-left: var(--space-3);
+    padding: var(--space-3);
   }
 
   .metrics-grid {
     border-bottom: var(--border-heavy);
     display: grid;
+    background: var(--color-black);
+    gap: 1px;
     grid-template-columns: repeat(3, 1fr);
   }
 
   .metric-card {
     background: var(--color-panel);
-    border-right: var(--border-heavy);
+    border-right: 0;
     color: var(--color-black);
     display: grid;
-    min-height: 16rem;
-    padding: var(--space-4);
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr;
+    min-height: 8.5rem;
+    padding: var(--space-3);
   }
 
   .metric-card:last-child {
@@ -42,41 +49,43 @@
   }
 
   .metric-card--active {
-    background: var(--color-blue);
+    background: var(--color-status-active);
   }
 
   .metric-card--overdue {
-    background: var(--color-danger);
+    background: var(--color-status-overdue);
   }
 
   .metric-card--scheduled {
-    background: var(--color-acid);
+    background: var(--color-status-scheduled);
   }
 
   .metric-card__index {
     align-self: start;
     font-family: var(--font-mono);
-    font-size: 0.66rem;
+    font-size: var(--font-size-xs);
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
   }
 
   .metric-card__label {
     align-self: end;
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--letter-spacing-tight);
     text-transform: uppercase;
   }
 
   .metric-card__value {
     align-self: center;
     font-family: var(--font-mono);
-    font-size: clamp(4rem, 8vw, 7rem);
+    font-size: var(--font-size-2xl);
     font-weight: 500;
-    letter-spacing: -0.08em;
-    line-height: 0.8;
+    letter-spacing: var(--letter-spacing-tight);
+    grid-column: 2;
+    grid-row: 1 / -1;
+    line-height: var(--line-height-compact);
   }
 
   .work-order-grid {
@@ -87,38 +96,45 @@
 
   .work-card {
     background: var(--color-panel);
-    border: var(--border-subtle);
-    min-height: 22rem;
-    padding: var(--space-4);
+    border: 0;
+    min-height: 14rem;
+    padding: var(--space-3);
     position: relative;
     transition: background var(--transition-fast), transform var(--transition-fast);
   }
 
   .work-card::before {
-    background: var(--color-acid);
+    background: var(--color-status-scheduled);
     content: "";
-    height: 0.35rem;
+    height: 0.25rem;
     inset: 0 0 auto;
     position: absolute;
   }
 
   .work-card--active::before {
-    background: var(--color-blue);
+    background: var(--color-status-active);
+  }
+
+  .work-card--cancelled::before {
+    background: var(--color-status-cancelled);
+  }
+
+  .work-card--completed::before {
+    background: var(--color-status-completed);
   }
 
   .work-card.is-overdue::before {
-    background: var(--color-danger);
+    background: var(--color-status-overdue);
   }
 
   .work-card:hover {
     background: var(--color-panel-raised);
-    transform: translateY(-0.25rem);
   }
 
   .work-card h3 {
     font-family: var(--font-mono);
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    margin-block: var(--space-5) var(--space-4);
+    font-size: var(--font-size-xl);
+    margin-block: var(--space-4) var(--space-3);
   }
 
   .work-card h3 a {
@@ -134,7 +150,7 @@
   .work-card__sequence {
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
   }
 
   .work-card__part {
@@ -146,13 +162,13 @@
   }
 
   .work-card__part span {
-    color: var(--color-blue);
+    color: var(--color-blue-text);
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
   }
 
   .work-card__part strong {
-    font-size: 1.05rem;
+    font-size: var(--font-size-lg);
   }
 
   .work-card__data {
@@ -167,8 +183,8 @@
   .spec-grid dt {
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-wide);
     margin-bottom: 0.4rem;
     text-transform: uppercase;
   }
@@ -176,11 +192,7 @@
   .work-card__data dd,
   .part-card__data dd {
     font-family: var(--font-mono);
-    font-size: 0.84rem;
-  }
-
-  .part-grid {
-    border-top: var(--border-subtle);
+    font-size: var(--font-size-base);
   }
 
   .part-card {
@@ -189,24 +201,28 @@
     display: grid;
     gap: var(--space-4);
     grid-template-columns: 4rem minmax(0, 1fr) minmax(16rem, 0.7fr);
-    min-height: 9rem;
-    padding: var(--space-4);
+    min-height: 5.5rem;
+    padding: var(--space-3);
     transition: background var(--transition-fast);
   }
 
+  .part-card:last-child {
+    border-bottom: 0;
+  }
+
   .part-card:hover {
-    background: var(--color-panel);
+    background: var(--color-panel-raised);
   }
 
   .part-card__index {
-    color: var(--color-blue);
+    color: var(--color-blue-text);
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
   }
 
   .part-card__identity h2 {
     font-family: var(--font-mono);
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: var(--font-size-lg);
   }
 
   .part-card__identity h2 a {
@@ -215,7 +231,7 @@
 
   .part-card__identity p {
     color: var(--color-muted);
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
   }
 
   .part-card__data {
@@ -228,19 +244,20 @@
     background: var(--color-panel);
     border-bottom: var(--border-heavy);
     display: grid;
-    grid-template-columns: 8rem minmax(0, 1fr);
+    border-inline: var(--border-heavy);
+    grid-template-columns: 3rem minmax(0, 1fr);
   }
 
   .detail-panel__marker {
     align-items: center;
-    background: var(--color-blue);
+    background: var(--color-orange);
     color: var(--color-black);
     display: flex;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
     font-weight: 700;
     justify-content: center;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--letter-spacing-wide);
     writing-mode: vertical-rl;
   }
 
@@ -251,8 +268,8 @@
 
   .spec-grid > div {
     border-right: var(--border-subtle);
-    min-height: 12rem;
-    padding: var(--space-4);
+    min-height: 7.5rem;
+    padding: var(--space-3);
   }
 
   .spec-grid > div:last-child {
@@ -260,26 +277,26 @@
   }
 
   .spec-grid dd {
-    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    font-size: var(--font-size-lg);
     font-weight: 650;
   }
 
   .spec-grid dd a {
-    color: var(--color-blue);
+    color: var(--color-blue-text);
   }
 
   .spec-grid dd small {
     color: var(--color-muted);
     display: block;
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: var(--font-size-xs);
     font-weight: 400;
     margin-top: 0.5rem;
     text-transform: uppercase;
   }
 
   .spec-grid__feature {
-    background: var(--color-acid);
+    background: var(--color-blue);
     color: var(--color-black);
   }
 
@@ -310,28 +327,28 @@
   .order-notes {
     background: var(--color-blue-deep);
     border-left: var(--border-heavy);
-    padding: var(--space-4);
+    padding: var(--space-3);
   }
 
   .order-notes__label {
-    color: var(--color-blue);
+    color: var(--color-blue-text);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
   }
 
   .order-notes p {
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-size: var(--font-size-lg);
     font-weight: 550;
-    margin-top: var(--space-4);
+    margin-top: var(--space-3);
   }
 
   @media (max-width: 48rem) {
     .hero {
       align-items: start;
       grid-template-columns: 1fr;
-      min-height: 21rem;
+      min-height: 12rem;
     }
 
     .metrics-grid {
@@ -341,7 +358,7 @@
     .metric-card {
       border-bottom: var(--border-heavy);
       border-right: 0;
-      min-height: 10rem;
+      min-height: 6rem;
     }
 
     .metric-card:last-child {

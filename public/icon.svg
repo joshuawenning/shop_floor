@@ -1,6 +1,6 @@
 <svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
   <title>Shop Floor</title>
-  <rect fill="#d7ff00" height="512" width="512" x="0" y="0"/>
-  <path d="M80 104h160v60H80v-60Zm0 0h60v176H80V104Zm0 116h160v60H80v-60Zm100 0h60v188h-60V220ZM80 348h160v60H80v-60Z" fill="#050505"/>
-  <path d="M276 104h156v60H336v60h80v60h-80v124h-60V104Z" fill="#050505"/>
+  <rect fill="#ffffff" height="512" width="512" x="0" y="0"/>
+  <path d="M80 104h160v60H80v-60Zm0 0h60v176H80V104Zm0 116h160v60H80v-60Zm100 0h60v188h-60V220ZM80 348h160v60H80v-60Z" fill="#202020"/>
+  <path d="M276 104h156v60H336v60h80v60h-80v124h-60V104Z" fill="#202020"/>
 </svg>

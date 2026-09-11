@@ -2,53 +2,63 @@
   .status-badge {
     align-items: center;
     background: var(--color-panel-raised);
-    border: 1px solid var(--color-line);
+    border: 1px solid #71716e;
+    border-radius: 2px;
     color: var(--color-ink);
     display: inline-flex;
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: var(--font-size-xs);
     font-weight: 650;
     gap: 0.45rem;
-    letter-spacing: 0.07em;
-    min-height: 1.8rem;
-    padding: 0.35rem 0.65rem;
+    letter-spacing: var(--letter-spacing-wide);
+    min-height: 1.4rem;
+    padding: 0.25rem 0.5rem;
     text-transform: uppercase;
     white-space: nowrap;
   }
 
   .status-badge::before {
     background: currentColor;
-    border-radius: 50%;
+    border-radius: 1px;
     content: "";
-    height: 0.4rem;
-    width: 0.4rem;
+    height: 0.5rem;
+    width: 0.5rem;
   }
 
-  .status-badge--active,
+  .status-badge--active {
+    border-color: var(--color-status-active);
+    color: var(--color-status-active-text);
+  }
+
   .status-badge--in-progress {
-    border-color: var(--color-blue);
-    color: var(--color-blue);
+    border-color: var(--color-status-in-progress);
+    color: var(--color-status-in-progress-text);
   }
 
   .status-badge--cancelled {
-    color: var(--color-muted);
+    border-color: var(--color-status-cancelled);
+    color: var(--color-status-cancelled-text);
   }
 
   .status-badge--completed {
-    border-color: var(--color-green);
-    color: var(--color-green);
+    border-color: var(--color-status-completed);
+    color: var(--color-status-completed-text);
   }
 
   .status-badge--overdue {
-    background: var(--color-danger);
-    border-color: var(--color-danger);
-    color: var(--color-black);
+    background: var(--color-status-overdue);
+    border-color: var(--color-status-overdue);
+    color: var(--color-status-overdue-text);
   }
 
-  .status-badge--pending,
+  .status-badge--pending {
+    border-color: var(--color-status-pending);
+    color: var(--color-status-pending-text);
+  }
+
   .status-badge--scheduled {
-    border-color: var(--color-acid);
-    color: var(--color-acid);
+    border-color: var(--color-status-scheduled);
+    color: var(--color-status-scheduled-text);
   }
 
   .heading-status {
@@ -57,7 +67,7 @@
     display: flex;
     flex-wrap: wrap;
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: var(--font-size-xs);
     gap: var(--space-3);
     margin-top: var(--space-3);
     text-transform: uppercase;

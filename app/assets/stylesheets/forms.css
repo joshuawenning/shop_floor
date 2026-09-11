@@ -3,7 +3,7 @@
     background: var(--color-panel);
     border: var(--border-subtle);
     max-width: 68rem;
-    padding: clamp(1.25rem, 4vw, 3rem);
+    padding: clamp(1rem, 3vw, 2rem);
   }
 
   .record-form--compact {
@@ -31,52 +31,51 @@
 
   .form-field label {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--font-size-xs);
     font-weight: 650;
-    letter-spacing: 0.125em;
+    letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
   }
 
   .form-field small {
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--font-size-sm);
   }
 
   .form-field input,
   .form-field select,
   .form-field textarea {
     appearance: none;
-    background: var(--color-black);
-    border: 1px solid var(--color-line);
-    border-radius: 0;
-    color: var(--color-ink);
+    background: #eeeeeb;
+    border: 1px solid #6d6d69;
+    border-radius: 2px;
+    color: var(--color-black);
     font-family: var(--font-mono);
-    font-size: 1rem;
-    min-height: 3.5rem;
-    padding: 0.75rem 1rem;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    font-size: var(--font-size-lg);
+    min-height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    transition: border-color var(--transition-fast);
     width: 100%;
   }
 
   .form-field input:focus,
   .form-field select:focus,
   .form-field textarea:focus {
-    border-color: var(--color-blue);
-    box-shadow: inset 0 -0.2rem 0 var(--color-blue);
+    border-color: #8e3d24;
     outline: 0;
   }
 
   .form-field select {
-    background-image: linear-gradient(45deg, transparent 50%, var(--color-blue) 50%), linear-gradient(135deg, var(--color-blue) 50%, transparent 50%);
-    background-position: calc(100% - 1.15rem) 1.4rem, calc(100% - 0.8rem) 1.4rem;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-black) 50%), linear-gradient(135deg, var(--color-black) 50%, transparent 50%);
+    background-position: calc(100% - 1.15rem) 1rem, calc(100% - 0.8rem) 1rem;
     background-repeat: no-repeat;
-    background-size: 0.35rem 0.35rem;
+    background-size: 0.25rem 0.25rem;
     padding-right: 2.5rem;
   }
 
   .form-field textarea {
-    min-height: 9rem;
+    min-height: 6rem;
     resize: vertical;
   }
 
@@ -94,7 +93,9 @@
     align-items: center;
     display: flex;
     gap: var(--space-4);
-    margin-top: var(--space-5);
+    border-top: var(--border-subtle);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
   }
 
   .form-actions--stacked {
@@ -111,15 +112,15 @@
 
   .form-errors__code {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: var(--font-size-sm);
     font-weight: 700;
-    letter-spacing: 0.125em;
+    letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
   }
 
   .form-errors h2 {
-    font-size: 1.25rem;
-    letter-spacing: -0.05em;
+    font-size: var(--font-size-lg);
+    letter-spacing: var(--letter-spacing-tight);
     margin-top: var(--space-2);
   }
 

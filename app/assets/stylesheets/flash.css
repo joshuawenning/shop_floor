@@ -1,13 +1,14 @@
 @layer components {
   .flash {
     align-items: center;
-    background: var(--color-blue);
+    background: #abd2e1;
+    border: var(--border-heavy);
     color: var(--color-black);
     display: flex;
     font-weight: 600;
     gap: var(--space-3);
-    margin: var(--space-3) clamp(1rem, 4vw, 4rem) 0;
-    padding: var(--space-3) var(--space-4);
+    margin: var(--space-2) 0.75rem 0;
+    padding: var(--space-2) var(--space-3);
   }
 
   .flash--alert {
@@ -21,8 +22,8 @@
   .flash__label {
     border-right: 1px solid rgb(5 5 5 / 40%);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-wide);
     padding-right: var(--space-3);
   }
 }

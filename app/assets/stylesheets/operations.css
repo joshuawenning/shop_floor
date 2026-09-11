@@ -11,46 +11,46 @@
     display: grid;
     gap: var(--space-4);
     grid-template-columns: 4rem minmax(0, 1fr) auto auto;
-    min-height: 7.5rem;
-    padding: var(--space-3) var(--space-4);
+    min-height: 4.5rem;
+    padding: var(--space-2) var(--space-3);
     position: relative;
   }
 
   .operation-item::before {
-    background: var(--color-acid);
+    background: var(--color-status-pending);
     content: "";
     inset: 0 auto 0 0;
     position: absolute;
-    width: 0.25rem;
+    width: 0.35rem;
   }
 
   .operation-item--completed::before {
-    background: var(--color-green);
+    background: var(--color-status-completed);
   }
 
   .operation-item--in-progress::before {
-    background: var(--color-blue);
+    background: var(--color-status-in-progress);
   }
 
   .operation-item__position {
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 1.1rem;
+    font-size: var(--font-size-lg);
   }
 
   .operation-item__body {
     display: grid;
-    gap: 0.35rem;
+    gap: 0.25rem;
   }
 
   .operation-item__body strong {
-    font-size: 1.1rem;
+    font-size: var(--font-size-base);
   }
 
   .operation-item__body span {
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.64rem;
+    font-size: var(--font-size-xs);
     text-transform: uppercase;
   }
 

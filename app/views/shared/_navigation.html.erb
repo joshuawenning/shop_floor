@@ -1,33 +1,31 @@
 <header class="site-header">
   <div class="site-header__main">
     <%= link_to root_path, class: "site-brand", aria: { label: "Shop Floor dashboard" } do %>
-      <span class="site-brand__mark" aria-hidden="true">SF</span>
-      <span class="site-brand__name">
-        <strong>Shop Floor</strong>
-        <small>Production Control</small>
-      </span>
+      <%= image_tag "/icon.svg", alt: "", class: "site-brand__mark" %>
     <% end %>
 
-    <nav class="site-nav" aria-label="Primary navigation">
-      <%= link_to "Dashboard", root_path,
-        class: ["site-nav__link", { "is-current": controller_name == "dashboard" }] %>
-      <%= link_to "Parts", parts_path,
-        class: ["site-nav__link", { "is-current": controller_name == "parts" }] %>
-      <%= link_to "Work Orders", work_orders_path,
-        class: ["site-nav__link", { "is-current": controller_name.in?(%w[work_orders operations]) }] %>
-    </nav>
+    <div class="site-header__actions">
+      <nav class="site-nav" aria-label="Primary navigation">
+        <%= link_to "Dashboard", root_path,
+          class: ["site-nav__link", { "is-current": controller_name == "dashboard" }] %>
+        <%= link_to "Parts", parts_path,
+          class: ["site-nav__link", { "is-current": controller_name == "parts" }] %>
+        <%= link_to "Work Orders", work_orders_path,
+          class: ["site-nav__link", { "is-current": controller_name.in?(%w[work_orders operations]) }] %>
+      </nav>
 
-    <div class="site-session">
-      <% if authenticated? %>
-        <span class="site-session__state"><i></i>Authorized</span>
-        <%= button_to "Sign out", session_path,
-          class: "button button--compact button--ghost",
-          form: { class: "inline-form" },
-          method: :delete %>
-      <% else %>
-        <%= link_to "Sign in", new_session_path,
-          class: "button button--compact button--signal" %>
-      <% end %>
+      <div class="site-session">
+        <% if authenticated? %>
+          <span class="site-session__state"><i></i>Authorized</span>
+          <%= button_to "Sign out", session_path,
+            class: "button button--compact button--ghost",
+            form: { class: "inline-form" },
+            method: :delete %>
+        <% else %>
+          <%= link_to "Sign In", new_session_path,
+            class: "button button--ghost" %>
+        <% end %>
+      </div>
     </div>
   </div>
 

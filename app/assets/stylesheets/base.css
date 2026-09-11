@@ -1,27 +1,30 @@
 @layer base {
   body {
-    background-color: var(--color-black);
+    background-color: var(--color-panel);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 1rem;
-    line-height: 1.45;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
     min-height: 100vh;
   }
 
   body::before {
-    background-image: linear-gradient(var(--color-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
-    background-size: 4rem 4rem;
+    background-image: linear-gradient(rgb(255 255 255 / 8%) 1px, transparent 1px), linear-gradient(90deg, rgb(0 0 0 / 8%) 1px, transparent 1px);
+    background-size: 1rem 1rem;
     content: "";
     inset: 0;
-    mask-image: linear-gradient(to bottom, rgb(0 0 0 / 18%), transparent 48rem);
-    opacity: 0.16;
+    opacity: 0.25;
     pointer-events: none;
     position: fixed;
     z-index: -1;
   }
 
+  body.is-public::before {
+    display: none;
+  }
+
   ::selection {
-    background: var(--color-acid);
+    background: var(--color-orange);
     color: var(--color-black);
   }
 
@@ -29,12 +32,12 @@
     color: inherit;
     text-decoration-color: currentColor;
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.2em;
+    text-underline-offset: 0.25em;
     transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
   }
 
   a:hover {
-    color: var(--color-acid);
+    color: #000;
   }
 
   button,
@@ -47,24 +50,25 @@
   h1,
   h2,
   h3 {
-    font-weight: 700;
-    line-height: 1;
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-compact);
   }
 
   h1 {
-    font-size: clamp(3.25rem, 9vw, 8.75rem);
+    font-size: var(--font-size-2xl);
   }
 
   h2 {
-    font-size: clamp(2rem, 4vw, 4.25rem);
+    font-size: var(--font-size-xl);
   }
 
   h3 {
-    font-size: clamp(1.4rem, 2.5vw, 2.25rem);
+    font-size: var(--font-size-lg);
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-blue);
-    outline-offset: 4px;
+    outline: 2px solid var(--color-orange);
+    outline-offset: 1px;
   }
 }
